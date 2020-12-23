@@ -1,0 +1,26 @@
+{
+  "name": "Youtube Likes Percentage",
+  "version": "0.9",
+  "permissions": [
+    "*://*.youtube.com/*"
+  ],
+  "icons": {
+    "16": "assets/img/icon_16x16.png",
+    "48": "assets/img/icon_64x64.png",
+    "128": "assets/img/icon_128x128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "js": [
+        "assets/js/youtube-likes.js",
+        "assets/js/script.js"
+      ],
+      "run_at" : "document_start"
+    }
+  ],
+  "minimum_chrome_version" : "60",
+  "manifest_version" : 2
+}
