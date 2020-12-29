@@ -3,14 +3,8 @@
 
 	class YoutubeLikes {
 		is_enabled = false;
-		cache = {
-			likes: {
-				outerHTML: undefined,
-			},
-			dislikes: {
-				outerHTML: undefined,
-			},
-		};
+		likes_html = undefined;
+		dislikes_html = undefined;
 		enable() {
 			if ( this.is_enabled ) this.disable();
 
@@ -49,29 +43,23 @@
 			if ( !$likes ) return;
 			if ( !$dislikes ) return;
 
-			let likes_changed = $likes.outerHTML !== this.cache.likes.outerHTML;
-			let dislikes_changed = $dislikes.outerHTML !== this.cache.dislikes.outerHTML;
+			let likes_changed = $likes.outerHTML !== this.likes_html;
+			let dislikes_changed = $dislikes.outerHTML !== this.dislikes_html;
 
 			if ( likes_changed || dislikes_changed ) {
 				this._on_change( video_id, $likes, $dislikes );
 
-				this.cache.likes.outerHTML = $likes.outerHTML;
-				this.cache.dislikes.outerHTML = $dislikes.outerHTML;
+				this.likes_html = $likes.outerHTML;
+				this.dislikes_html = $dislikes.outerHTML;
 			}
 		}
 		_on_change( video_id, $likes, $dislikes ) {
-			this._clear( $likes );
-			this._clear( $dislikes );
-
-			let likes_text = $likes.innerHTML;
-			let dislikes_text = $dislikes.innerHTML;
-
 			let likes = $likes.getAttribute( 'aria-label' );
 			let dislikes = $dislikes.getAttribute( 'aria-label' );
 
 			if ( !likes && !dislikes ) {
-				$likes.innerHTML = likes_text;
-				$dislikes.innerHTML = dislikes_text;
+				$likes.setAttribute( 'data-likes-percentage', '' );
+				$dislikes.setAttribute( 'data-likes-percentage', '' );
 
 				return;
 			}
@@ -98,34 +86,8 @@
 			likes_prop = ( 100 * likes_prop ).toFixed(2);
 			dislikes_prop = ( 100 * dislikes_prop ).toFixed(2);
 
-			$likes.innerHTML = `
-				<span class="youtube-likes-percentage">${likes_text}</span>
-				<br class="youtube-likes-percentage">
-				<span class="youtube-likes-percentage">${likes_prop}%</span>
-			`;
-
-			$dislikes.innerHTML = `
-				<span class="youtube-likes-percentage">${dislikes_text}</span>
-				<br class="youtube-likes-percentage">
-				<span class="youtube-likes-percentage">${dislikes_prop}%</span>
-			`;
-		}
-		_clear( $tag ) {
-			let $children = $tag.querySelectorAll( '.youtube-likes-percentage' );
-
-			if ( $children.length ) {
-				for ( let $child of $children ) {
-					$child.remove();
-				}
-			}
-
-			$children = $tag.querySelectorAll( '.yt-formatted-string' );
-
-			// remove all elements except the last one
-
-			for ( let i = 0, len = $children.length - 2; i <= len; i++ ) {
-				$children[ i ].remove();
-			}
+			$likes.setAttribute( 'data-likes-percentage', `${likes_prop}%` );
+			$dislikes.setAttribute( 'data-likes-percentage', `${dislikes_prop}%` );
 		}
 		_get_query_variable( variable, url ){
 			if ( !url ) url = window.location;

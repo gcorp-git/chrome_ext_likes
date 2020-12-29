@@ -1,0 +1,20 @@
+ytd-toggle-button-renderer #text {
+	min-width: 36px;
+	padding-bottom: 12px;
+	position: relative;
+}
+ytd-toggle-button-renderer #text:after {
+	content: attr(data-likes-percentage);
+	position: absolute;
+	top: 16px;
+	left: 0;
+}
+
+ytd-toggle-button-renderer #text[data-likes-percentage=""] {
+	min-width: auto;
+	padding-bottom: 0;
+	position: relative;
+}
+ytd-toggle-button-renderer #text[data-likes-percentage=""]:after {
+	display: none;
+}

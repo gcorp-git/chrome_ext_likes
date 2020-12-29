@@ -14,6 +14,9 @@
       "matches": [
         "*://*.youtube.com/*"
       ],
+      "css": [
+        "assets/css/youtube-likes.css"
+      ],
       "js": [
         "assets/js/youtube-likes.js",
         "assets/js/script.js"
