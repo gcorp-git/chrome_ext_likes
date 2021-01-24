@@ -2,23 +2,23 @@
 	'use strict';
 
 	class YoutubeLikes {
-		is_enabled = false;
-		likes_html = undefined;
-		dislikes_html = undefined;
+		_is_enabled = false;
+		_likes_html = undefined;
+		_dislikes_html = undefined;
 		enable() {
-			if ( this.is_enabled ) this.disable();
+			if ( this._is_enabled ) this.disable();
 
-			this.is_enabled = true;
+			this._is_enabled = true;
 
 			window.requestAnimationFrame( this._frame.bind( this ) );
 		}
 		disable() {
-			if ( !this.is_enabled ) return;
+			if ( !this._is_enabled ) return;
 
-			this.is_enabled = false;
+			this._is_enabled = false;
 		}
 		_frame() {
-			if ( !this.is_enabled ) return;
+			if ( !this._is_enabled ) return;
 
 			this._on_frame();
 
@@ -43,14 +43,14 @@
 			if ( !$likes ) return;
 			if ( !$dislikes ) return;
 
-			let likes_changed = $likes.outerHTML !== this.likes_html;
-			let dislikes_changed = $dislikes.outerHTML !== this.dislikes_html;
+			let likes_changed = $likes.outerHTML !== this._likes_html;
+			let dislikes_changed = $dislikes.outerHTML !== this._dislikes_html;
 
 			if ( likes_changed || dislikes_changed ) {
 				this._on_change( video_id, $likes, $dislikes );
 
-				this.likes_html = $likes.outerHTML;
-				this.dislikes_html = $dislikes.outerHTML;
+				this._likes_html = $likes.outerHTML;
+				this._dislikes_html = $dislikes.outerHTML;
 			}
 		}
 		_on_change( video_id, $likes, $dislikes ) {
