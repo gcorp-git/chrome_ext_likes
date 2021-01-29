@@ -58,6 +58,11 @@
 			let dislikes = $dislikes.getAttribute( 'aria-label' );
 
 			if ( !likes && !dislikes ) {
+				likes = $likes.getAttribute( 'data-likes-value' );
+				dislikes = $dislikes.getAttribute( 'data-likes-value' );
+			}
+
+			if ( !likes && !dislikes ) {
 				$likes.setAttribute( 'data-likes-percentage', '' );
 				$dislikes.setAttribute( 'data-likes-percentage', '' );
 
@@ -88,6 +93,9 @@
 
 			$likes.setAttribute( 'data-likes-percentage', `${likes_prop}%` );
 			$dislikes.setAttribute( 'data-likes-percentage', `${dislikes_prop}%` );
+			
+			$likes.setAttribute( 'data-likes-value', `${likes}` );
+			$dislikes.setAttribute( 'data-likes-value', `${dislikes}` );
 		}
 		_get_query_variable( variable, url ){
 			if ( !url ) url = window.location;
